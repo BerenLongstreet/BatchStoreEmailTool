@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:tns="http://tempuri.org/CRSAPImportManager_WS/Common" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" targetNamespace="http://tempuri.org/CRSAPImportManager_WS/Common" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/CRSAPImportManager_WS/Common">
+      <s:import namespace="http://www.w3.org/2001/XMLSchema" />
+      <s:element name="GetWebServiceTimeOut">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetWebServiceTimeOutResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetWebServiceTimeOutResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSitesForCompany">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CompanyID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSitesForCompanyResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSitesForCompanyResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSitesForCompany_v2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CompanyID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSitesForCompany_v2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSitesForCompany_v2Result">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCompanyList">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetCompanyListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCompanyListResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetWebServiceTimeOutSoapIn">
+    <wsdl:part name="parameters" element="tns:GetWebServiceTimeOut" />
+  </wsdl:message>
+  <wsdl:message name="GetWebServiceTimeOutSoapOut">
+    <wsdl:part name="parameters" element="tns:GetWebServiceTimeOutResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSitesForCompanySoapIn">
+    <wsdl:part name="parameters" element="tns:GetSitesForCompany" />
+  </wsdl:message>
+  <wsdl:message name="GetSitesForCompanySoapOut">
+    <wsdl:part name="parameters" element="tns:GetSitesForCompanyResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSitesForCompany_v2SoapIn">
+    <wsdl:part name="parameters" element="tns:GetSitesForCompany_v2" />
+  </wsdl:message>
+  <wsdl:message name="GetSitesForCompany_v2SoapOut">
+    <wsdl:part name="parameters" element="tns:GetSitesForCompany_v2Response" />
+  </wsdl:message>
+  <wsdl:message name="GetCompanyListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCompanyList" />
+  </wsdl:message>
+  <wsdl:message name="GetCompanyListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCompanyListResponse" />
+  </wsdl:message>
+  <wsdl:portType name="CommonSoap">
+    <wsdl:operation name="GetWebServiceTimeOut">
+      <wsdl:input message="tns:GetWebServiceTimeOutSoapIn" />
+      <wsdl:output message="tns:GetWebServiceTimeOutSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSitesForCompany">
+      <wsdl:input message="tns:GetSitesForCompanySoapIn" />
+      <wsdl:output message="tns:GetSitesForCompanySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSitesForCompany_v2">
+      <wsdl:input message="tns:GetSitesForCompany_v2SoapIn" />
+      <wsdl:output message="tns:GetSitesForCompany_v2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCompanyList">
+      <wsdl:input message="tns:GetCompanyListSoapIn" />
+      <wsdl:output message="tns:GetCompanyListSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CommonSoap" type="tns:CommonSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetWebServiceTimeOut">
+      <soap:operation soapAction="http://tempuri.org/CRSAPImportManager_WS/Common/GetWebServiceTimeOut" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSitesForCompany">
+      <soap:operation soapAction="http://tempuri.org/CRSAPImportManager_WS/Common/GetSitesForCompany" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSitesForCompany_v2">
+      <soap:operation soapAction="http://tempuri.org/CRSAPImportManager_WS/Common/GetSitesForCompany_v2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCompanyList">
+      <soap:operation soapAction="http://tempuri.org/CRSAPImportManager_WS/Common/GetCompanyList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Common">
+    <wsdl:port name="CommonSoap" binding="tns:CommonSoap">
+      <soap:address location="http://crsws1.corp.crs-services.com/BatchStoreEmailSystem_WS/Common.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

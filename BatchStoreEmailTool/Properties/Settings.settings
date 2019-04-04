@@ -1,0 +1,21 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="BatchStoreEmailTool.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="TestSetting" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">123456</Value>
+    </Setting>
+    <Setting Name="Mode" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">LIVE</Value>
+    </Setting>
+    <Setting Name="MaxAttachments" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">13</Value>
+    </Setting>
+    <Setting Name="TestEmailAddress" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">blongstreet@classicburgers.com</Value>
+    </Setting>
+    <Setting Name="LastAttachmentLocation" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">%userprofile%\Documents\</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
