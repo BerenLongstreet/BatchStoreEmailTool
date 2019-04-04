@@ -820,6 +820,9 @@ namespace BatchStoreEmailTool
 
                 this.sTestEmailAddress = sNewTestEmailAddress;
 
+                //COMMENT TEST FOR GITHUB
+                //COMMENT TEST FOR LIVE SHARE!!! 🎯
+
                 MessageBox.Show(string.Format("The test mode email address has been changed to \n\n{0}\n\nTo set another test email address, use the button at the top right.", this.sTestEmailAddress), this.Text, MessageBoxButtons.OK);
 
             }
