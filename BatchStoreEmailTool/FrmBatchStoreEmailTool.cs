@@ -444,6 +444,8 @@ namespace BatchStoreEmailTool
                             }
                         }
                     } //NEXT CHECKED SITE
+
+                    ShowStatusMessage("Email Batch Completed!");
                 }
             }
             catch (System.ApplicationException AppEx)
