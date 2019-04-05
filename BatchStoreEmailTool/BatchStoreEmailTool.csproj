@@ -33,7 +33,7 @@
     <PublishUrl>\\crsws1\c%24\Program Files\CRS\BatchStoreEmailSystem_WS\BatchStoreEmailTool\</PublishUrl>
     <InstallUrl>http://crsws1.corp.crs-services.com/BatchStoreEmailSystem_WS/BatchStoreEmailTool/</InstallUrl>
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>2.0.0.5</ApplicationVersion>
+    <ApplicationVersion>2.0.0.6</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>0</UpdateInterval>
