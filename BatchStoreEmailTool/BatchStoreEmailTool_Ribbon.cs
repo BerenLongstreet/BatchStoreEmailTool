@@ -13,7 +13,7 @@ namespace BatchStoreEmailTool
 
         private void BatchStoreEmailTool_Ribbon_Load(object sender, RibbonUIEventArgs e)
         {
-            
+            Application.ThreadException += Application_ThreadException;            
         }
 
         private void OpenBatchStoreEmailForm(object sender, RibbonControlEventArgs e)
@@ -41,10 +41,11 @@ namespace BatchStoreEmailTool
 
             if (thisBatchForm == null)
             {
+
+
                 thisBatchForm = new FrmBatchStoreEmailTool();
                 thisBatchForm.FormClosed += ThisBatchForm_FormClosed;
 
-                
 
                 if (TestMode == true)
                 {
@@ -52,7 +53,6 @@ namespace BatchStoreEmailTool
                 }
 
                 thisBatchForm.Show();
-
 
             }
             else
@@ -64,6 +64,11 @@ namespace BatchStoreEmailTool
 
                 thisBatchForm.Activate();
             }
+        }
+
+        private void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
+        {
+            MessageBox.Show(string.Format("The {0} has thrown the following exception: {1}", this.Name, e.Exception.Message), this.Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void ThisBatchForm_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)

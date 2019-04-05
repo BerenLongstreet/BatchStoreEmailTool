@@ -1,12 +1,11 @@
-﻿using System;
+﻿using BatchStoreEmailTool.Properties.DataSources;
+using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using System.ComponentModel.DataAnnotations;
 using Outlook = Microsoft.Office.Interop.Outlook;
-using BatchStoreEmailTool.Properties.DataSources;
-using System.IO;
 
 
 namespace BatchStoreEmailTool
@@ -38,7 +37,7 @@ namespace BatchStoreEmailTool
 
         public void SetTestMode()
         {
-            if(bIsTest != true)
+            if (bIsTest != true)
             {
                 bIsTest = true;
 
@@ -88,9 +87,9 @@ namespace BatchStoreEmailTool
             //Trace.WriteLine("testing...");
             this.openFileDialog1.InitialDirectory = Globals.ThisAddIn.GetSoftwareSetting("LastAttachmentLocation", "C:\\");
 
-            if(thisRefreshTimer!=null)
-            { 
-            thisRefreshTimer.Elapsed -= thisRefreshTimer_Elapsed;
+            if (thisRefreshTimer != null)
+            {
+                thisRefreshTimer.Elapsed -= thisRefreshTimer_Elapsed;
             }
 
             thisRefreshTimer = new System.Timers.Timer();
@@ -101,7 +100,7 @@ namespace BatchStoreEmailTool
 
         private void GetSettings()
         {
-            this.OverrideWebServiceAddress = Globals.ThisAddIn.GetSoftwareSetting("WebServiceAddress","X");
+            this.OverrideWebServiceAddress = Globals.ThisAddIn.GetSoftwareSetting("WebServiceAddress", "X");
             if (Globals.ThisAddIn.GetSoftwareSetting("Mode", "LIVE") == "TEST")
             {
                 SetTestMode();
@@ -114,7 +113,7 @@ namespace BatchStoreEmailTool
 
         private void ShowWelcomeTestModeMessage()
         {
-            if(this.bLoadedState && this.bIsTest && this.sTestEmailAddress != string.Empty)
+            if (this.bLoadedState && this.bIsTest && this.sTestEmailAddress != string.Empty)
             {
                 MessageBox.Show(string.Format("Welcome to Test Mode! Any mail produced will currently be sent to \n\n{0}\n\n To set another test email address, use the button at the top right.", this.sTestEmailAddress), this.Text, MessageBoxButtons.OK);
             }
@@ -182,13 +181,13 @@ namespace BatchStoreEmailTool
 
                 if (thisSiteList.LoadFromUntypedDataset(ref dsSiteList))
                 {
-                   //var VSiteList = thisSiteList.CompanySites.AsEnumerable().Select(r => new
-                   // {
-                   //     SiteKey = r.Field<System.Guid>("SiteKey").ToString(),
-                   //     SiteID = r.Field<int>("SiteID").ToString().PadLeft(3),
-                   //     SiteName = r.Field<string>("SiteName"),
-                   //     DistrictName = r.Field<string>("DistrictName")
-                   // });
+                    //var VSiteList = thisSiteList.CompanySites.AsEnumerable().Select(r => new
+                    // {
+                    //     SiteKey = r.Field<System.Guid>("SiteKey").ToString(),
+                    //     SiteID = r.Field<int>("SiteID").ToString().PadLeft(3),
+                    //     SiteName = r.Field<string>("SiteName"),
+                    //     DistrictName = r.Field<string>("DistrictName")
+                    // });
 
                     lstSiteList.Items.Clear();
 
@@ -200,7 +199,7 @@ namespace BatchStoreEmailTool
                         i.SubItems.Add(s.SiteName);
                         i.SubItems.Add(s.DistrictName);
                         i.SubItems.Add(s.SiteKey);
-                    
+
                         lstSiteList.Items.Add(i);
                     }
 
@@ -217,8 +216,8 @@ namespace BatchStoreEmailTool
 
                 dsSiteList.Dispose();
                 dsSiteList = null;
-               
- 
+
+
             }
             catch (System.Exception)
             {
@@ -238,7 +237,7 @@ namespace BatchStoreEmailTool
         {
             var thisCommonSoapClient = new BatchStoreEmailSystem_WS.CommonSoapClient();
 
-            if(!OverrideWebServiceAddress.Equals("X"))
+            if (!OverrideWebServiceAddress.Equals("X"))
             {
                 thisCommonSoapClient.Endpoint.Address = new System.ServiceModel.EndpointAddress(OverrideWebServiceAddress + "/common.asmx");
             }
@@ -248,9 +247,9 @@ namespace BatchStoreEmailTool
 
         private void lstCompanyList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(bLoadedState==true)
+            if (bLoadedState == true)
             {
-                ComboBox thisCombo = (ComboBox) sender;
+                ComboBox thisCombo = (ComboBox)sender;
 
                 string thisCompanyID = ((CompanyListItem)thisCombo.SelectedItem).CompanyID;
 
@@ -287,9 +286,9 @@ namespace BatchStoreEmailTool
 
         private void chkUncheckAll_CheckedChanged(object sender, EventArgs e)
         {
-            if(bLoadedState == true)
+            if (bLoadedState == true)
             {
-                foreach(ListViewItem i in lstSiteList.Items)
+                foreach (ListViewItem i in lstSiteList.Items)
                 {
                     i.Checked = ((CheckBox)sender).Checked;
                 }
@@ -314,11 +313,11 @@ namespace BatchStoreEmailTool
                 //BatchStoreEmailTool.EmailConfigItem configItem = new EmailConfigItem();
                 //Outlook.MailItem mailItem = (Outlook.MailItem) Globals.ThisAddIn.Application.CreateItem(Outlook.OlItemType.olMailItem);
 
-                if(thisVariableFileName != null && this.lstSiteList.CheckedItems.Count > 0)
+                if (thisVariableFileName != null && this.lstSiteList.CheckedItems.Count > 0)
                 {
                     OutlookMail oMail = new OutlookMail(ref Globals.ThisAddIn.Application);
 
-                    if(bIsTest){oMail.Mode = "TEST";}
+                    if (bIsTest) { oMail.Mode = "TEST"; }
 
                     SiteInfo thisSiteInfo = null;
 
@@ -338,29 +337,27 @@ namespace BatchStoreEmailTool
                             thisToAddress = thisSiteInfo.EmailAddress;
 
                             ShowStatusMessage(string.Format("Processing # {0} ({1})...", thisSiteInfo.SiteNumber, thisSiteInfo.EmailAddress));
-                            
+
                             if (bIsTest)
                             {
-                                ShowStatusMessage("\tStore email address: " + thisSiteInfo.EmailAddress);
+                                //Override the TO adress with the test address
+                                ShowStatusMessage(string.Format("\tStore email address: {0}, using test email address instead.", thisToAddress));
+                                thisToAddress = sTestEmailAddress;
                             }
 
-                            if (this.ChkCopyOperatingPartner.Checked )
+                            if (this.ChkCopyOperatingPartner.Checked)
                             {
                                 thisCCAddress = thisSiteInfo.DistrictEmailAddress;
 
-                                if(bIsTest)
+                                if (bIsTest)
                                 {
-                                    ShowStatusMessage("\tCC address: " + thisCCAddress);
+                                    //Override the CC address with the test address
+                                    ShowStatusMessage(string.Format("\tProduction CC address: {0}, using test email address instead.", thisCCAddress));
+                                    thisCCAddress = sTestEmailAddress;
                                 }
                             }
 
                             Application.DoEvents();
-
-                            if (bIsTest)
-                            {
-                                thisToAddress = sTestEmailAddress;
-                                thisCCAddress = sTestEmailAddress;
-                            }
 
                             List<string> thisAttachmentList = new List<string>();
 
@@ -408,7 +405,7 @@ namespace BatchStoreEmailTool
                             }
 
                             //SEE IF ANY OF THE ABOVE EDGE CASES WERE TRUE
-                            if(!bHandledEdgeCase)
+                            if (!bHandledEdgeCase)
                             {
                                 thisAttachmentList.AddRange(this.AdditionalAttachments);
 
@@ -427,9 +424,9 @@ namespace BatchStoreEmailTool
                             }
 
                         }
-                        catch(System.Exception Ex)
+                        catch (System.Exception Ex)
                         {
-                            if(MessageBox.Show("An error occurred while sending mail to store " + thisSiteInfo.SiteNumber + ". " + Environment.NewLine + Environment.NewLine +
+                            if (MessageBox.Show("An error occurred while sending mail to store " + thisSiteInfo.SiteNumber + ". " + Environment.NewLine + Environment.NewLine +
 
                                                     "Would you like to continue to process remaining stores?\n\n" +
 
@@ -439,7 +436,7 @@ namespace BatchStoreEmailTool
 
                                                     MessageBoxButtons.YesNo, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1) == DialogResult.No)
                             {
-                                throw new ApplicationException(string.Format("Processing of the email batch was halted at #{0}. The details of the error are as follows: {1}", thisSiteInfo.SiteNumber,Ex.Message));
+                                throw new ApplicationException(string.Format("Processing of the email batch was halted at #{0}. The details of the error are as follows: {1}", thisSiteInfo.SiteNumber, Ex.Message));
                             }
                             else
                             {
@@ -449,12 +446,12 @@ namespace BatchStoreEmailTool
                     } //NEXT CHECKED SITE
                 }
             }
-            catch(System.ApplicationException AppEx)
+            catch (System.ApplicationException AppEx)
             {
                 ShowStatusMessage(AppEx.Message);
                 Application.DoEvents();
             }
-            catch(System.Exception Ex)
+            catch (System.Exception Ex)
             {
                 ShowStatusMessage("We experienced a problem while sending the email batch: " + Ex.Message);
                 Application.DoEvents();
@@ -488,14 +485,14 @@ namespace BatchStoreEmailTool
                     timer1.Start();
                 }
             }
-   
+
         }
 
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
             //this.MyLogListener.Dispose();
             //this.MyLogListener = null;
-     
+
             base.OnFormClosed(e);
         }
 
@@ -511,13 +508,13 @@ namespace BatchStoreEmailTool
                 // Do stuff on ANY control on the form.
                 MakeSampleResultNames();
             });
-            
+
             thisRefreshTimer.Stop();
         }
 
         private void lstSiteList_ItemCheck(object sender, System.Windows.Forms.ItemCheckEventArgs e)
         {
-            if(bLoadedState && thisRefreshTimer!=null)
+            if (bLoadedState && thisRefreshTimer != null)
             {
                 thisRefreshTimer.Interval = 500;
                 thisRefreshTimer.Start();
@@ -599,9 +596,10 @@ namespace BatchStoreEmailTool
         {
             if (bLoadedState == true)
             {
-                switch(e.Button)
+                switch (e.Button)
                 {
-                    case MouseButtons.Right: {
+                    case MouseButtons.Right:
+                        {
                             string DistrictName = ((ListView)sender).FocusedItem.SubItems[2].Text;
 
                             string FilterMessage = String.Format("Check all stores for {0}?", DistrictName);
@@ -610,7 +608,7 @@ namespace BatchStoreEmailTool
                             {
                                 foreach (ListViewItem i in lstSiteList.Items)
                                 {
-                                    if(i.SubItems[2].Text == DistrictName)
+                                    if (i.SubItems[2].Text == DistrictName)
                                     {
                                         i.Checked = true;
                                     }
@@ -618,7 +616,8 @@ namespace BatchStoreEmailTool
                             }
                         };
                         break;
-                    case MouseButtons.Middle: {
+                    case MouseButtons.Middle:
+                        {
 
                         }
                         break;
@@ -657,7 +656,7 @@ namespace BatchStoreEmailTool
                         {
                             if (this.bSingleFileMode)
                             {
-                                thisResultFileNameSampleString += ", " + thisVariableFileName.Replace(new String((char)234,1), FormatStoreNum(thisSiteNum, lstNumberFormat.SelectedItem.ToString().Length));
+                                thisResultFileNameSampleString += ", " + thisVariableFileName.Replace(new String((char)234, 1), FormatStoreNum(thisSiteNum, lstNumberFormat.SelectedItem.ToString().Length));
                                 iListCount += 1;
                             }
                             else
@@ -794,27 +793,47 @@ namespace BatchStoreEmailTool
             oDialog.AllowMultipleSelection = false;
             oDialog.Display();
 
-            if(oDialog.Recipients.Count > 0)
+            if (oDialog.Recipients.Count <= 0)
             {
-                Outlook.ExchangeUser exchangeUser = null;
+                return;
+            }
 
+            Outlook.ExchangeUser exchangeUser = null;
+
+            try
+            {
                 foreach (Outlook.Recipient recip in oDialog.Recipients)
                 {
-                    exchangeUser = null;
-                    exchangeUser = recip.AddressEntry.GetExchangeUser();
-
-                    if(exchangeUser!=null)
+                    try
                     {
-                        sNewTestEmailAddress += exchangeUser.PrimarySmtpAddress;
-                    }
-                    else
-                    {
-                        sNewTestEmailAddress = oDialog.Recipients[1].Address;
-                    }
+                        if (exchangeUser != null)
+                        {
+                            sNewTestEmailAddress += exchangeUser.PrimarySmtpAddress;
+                        }
+                        else
+                        {
+                            sNewTestEmailAddress = oDialog.Recipients[1].Address;
+                        }
 
-                    sNewTestEmailAddress += ';';
+                        sNewTestEmailAddress += ';';
+                    }
+                    catch (System.Exception)
+                    {
+                        throw;
+                    }
+                    finally
+                    {
+                        exchangeUser = null;
+                        exchangeUser = recip.AddressEntry.GetExchangeUser();
+                    }
                 }
-
+            }
+            catch(System.Exception)
+            {
+                throw;
+            }
+            finally
+            {
                 oDialog = null;
                 exchangeUser = null;
 
@@ -824,7 +843,6 @@ namespace BatchStoreEmailTool
                 //COMMENT TEST FOR LIVE SHARE!!! 🎯
 
                 MessageBox.Show(string.Format("The test mode email address has been changed to \n\n{0}\n\nTo set another test email address, use the button at the top right.", this.sTestEmailAddress), this.Text, MessageBoxButtons.OK);
-
             }
 
         }
