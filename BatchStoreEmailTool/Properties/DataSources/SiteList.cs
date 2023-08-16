@@ -31,14 +31,14 @@ namespace BatchStoreEmailTool.Properties.DataSources
             try
             {
                 var SiteQuery = from s in this.CompanySites
-                               where s.SiteKey.Equals(SiteKey)
-                               select new SiteInfo
-                               {
-                                   SiteNumber = s.SiteNumber.ToString(),
-                                   SiteName = s.SiteName,
-                                   EmailAddress = s.PrimaryEmailAddress,
-                                   DistrictEmailAddress = s.DistrictEmail
-                               };
+                                where s.SiteKey.Equals(SiteKey)
+                                select new SiteInfo
+                                {
+                                    SiteNumber = s.SiteNumber.ToString(),
+                                    SiteName = s.SiteName,
+                                    EmailAddress = s.PrimaryEmailAddress,
+                                    DistrictEmailAddress = s.DistrictEmail
+                                };
 
                 SiteInfo thisSite = SiteQuery.First();
 
